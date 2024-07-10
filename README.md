@@ -31,3 +31,48 @@ The data is sourced from [cricsheet.org](https://cricsheet.org), specifically th
    ```bash
    git clone <repository-url>
    cd <repository-directory>
+2. **Create and activate a virtual environment**
+    ```bash
+    python -m venu venu
+    source ven/bin/activate # On windows use `venu\Scripts\activate
+3. **Install dependencies**
+   ```bash
+   cors, Flask, joblib, panda
+
+## Usage
+
+### Model Training 
+- Run the `prepare_model.py` script to download the data, prepare it, and train the model: 
+   ```bash
+   python prepare_model.py
+
+### The script will perform the following steps:
+
+**Data Collection**
+- Downloads a zip file containing T20 match data in JSON format from cricsheet.org.
+**Data Extraction**
+- Extracts JSON files from the downloaded zip file.
+- Reads each JSON file to extract relevant match-level data such as teams, toss winner, match
+  winner, gender, and venue.
+**Data Preparation**
+- Collects data from all JSON files into a pandas DataFrame.
+- Removes rows with missing data.
+- Encodes categorical variables using one-hot encoding.
+**Model Training**
+- Prepares features and target variables, with the target being the match winner.
+- Encodes the target variable using LabelEncoder.
+- Splits the data into training and testing sets.
+- Trains a RandomForestClassifier on the training data.
+**Model Saving**
+- Saves the trained model and the label encoder using joblib.
+- Saves the combined match data in JSONL format.
+
+### RUnning the Flask API 
+
+- Run the `app.py` script to start the Flask API: 
+  ```bash
+  python app.py
+- The API will be available at http://localhost:5000.
+
+###Flask API Endpoints
+
