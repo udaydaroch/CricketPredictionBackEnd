@@ -48,26 +48,26 @@ The data is sourced from [cricsheet.org](https://cricsheet.org), specifically th
 
 ### The script will perform the following steps:
 
-**Data Collection**
+## **Data Collection**
 - Downloads a zip file containing T20 match data in JSON format from cricsheet.org.
-**Data Extraction**
+## **Data Extraction**
 - Extracts JSON files from the downloaded zip file.
 - Reads each JSON file to extract relevant match-level data such as teams, toss winner, match
   winner, gender, and venue.
-**Data Preparation**
+## **Data Preparation**
 - Collects data from all JSON files into a pandas DataFrame.
 - Removes rows with missing data.
 - Encodes categorical variables using one-hot encoding.
-**Model Training**
+## **Model Training**
 - Prepares features and target variables, with the target being the match winner.
 - Encodes the target variable using LabelEncoder.
 - Splits the data into training and testing sets.
 - Trains a RandomForestClassifier on the training data.
-**Model Saving**
+## **Model Saving**
 - Saves the trained model and the label encoder using joblib.
 - Saves the combined match data in JSONL format.
 
-### RUnning the Flask API 
+### Running the Flask API 
 
 - Run the `app.py` script to start the Flask API: 
   ```bash
@@ -76,3 +76,29 @@ The data is sourced from [cricsheet.org](https://cricsheet.org), specifically th
 
 ###Flask API Endpoints
 
+`Get /matches`
+- Retrieves avaible teams and venues for matches
+    ``` json
+   {
+     "teams": ["Team1", "Team2", ...],
+     "venues": ["Venue1", "Venue2", ...]
+   }
+`POST /predict`
+
+- Predicts the winner of a match based on input data
+     - Request Body:
+     ``` json
+     {
+        "team1": "Team1",
+        "team2": "Team2",
+        "toss_winner": "Team1",
+        "gender": "male",
+        "venue": "Venue1"
+      }
+   ```
+   - Response Body:
+    ``` json
+   {
+     "predicted_winner": "Team1",
+     "predicted_probability": 75.0
+    }
